@@ -1,4 +1,4 @@
-const API_URL = "YOUR_BACKEND_PROXY_URL";
+const API_URL = "https://1441391469-4i7e13x5g0.ap-shanghai.tencentscf.com/api/chat";
 
 const ERROR_MESSAGE = "Connection error. Please check your AI server.";
 
