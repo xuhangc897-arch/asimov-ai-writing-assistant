@@ -7,7 +7,11 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="home-page">
-  <div class="home-bg" aria-hidden="true"></div>
+  <div class="home-bg" aria-hidden="true">
+    <div class="home-layer home-space-layer"></div>
+    <div class="home-layer home-title-layer"></div>
+    <div class="home-layer home-asimov-layer"></div>
+  </div>
   <div class="home-overlay" aria-hidden="true"></div>
   <canvas id="spaceCanvas" aria-hidden="true"></canvas>
 
@@ -24,14 +28,26 @@
 
   <header class="neon-navbar home-bottom-bar">
     <a class="brand" href="index.html">Asimov AI Writing Assistant</a>
+    <div class="system-status" aria-label="System status">
+      <span class="status-item status-online"><span class="status-dot" aria-hidden="true"></span>AI STATUS: ONLINE</span>
+      <span class="status-item">SYSTEM READY</span>
+      <span class="status-item">v1.0</span>
+    </div>
     <span class="designer">Designed by CXH</span>
   </header>
 
   <main class="home-shell" aria-label="Choose assistant mode">
-    <a class="bubble-button bubble-cyan home-button home-button-left" href="translate.html">TRANSLATE</a>
-    <a class="bubble-button bubble-purple home-button home-button-right" href="writing.html">WRITING</a>
+    <p class="future-tagline">The future is not predicted. It is written.</p>
+    <a class="bubble-button bubble-cyan home-button home-button-left" href="translate.html">
+      <span class="bubble-label">TRANSLATE</span>
+    </a>
+    <a class="bubble-button bubble-purple home-button home-button-right" href="writing.html">
+      <span class="bubble-label">WRITING</span>
+    </a>
   </main>
 
-  <script type="module" src="space-bg.js"></script>
+  <div class="thinking-status" aria-live="polite">Analyzing narrative patterns...</div>
+
+  <script src="app.js"></script>
 </body>
 </html>

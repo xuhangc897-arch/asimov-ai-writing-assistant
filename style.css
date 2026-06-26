@@ -41,6 +41,7 @@ a {
 }
 
 .home-bg,
+.home-layer,
 .home-overlay,
 #spaceCanvas {
   position: fixed;
@@ -53,10 +54,35 @@ a {
 
 .home-bg {
   z-index: 0;
-  background:
-    url("assets/home-bg.jpg") center / cover no-repeat,
-    radial-gradient(circle at 50% 38%, rgba(50, 119, 255, 0.28), transparent 38%),
-    #050614;
+  overflow: hidden;
+  background: #050614;
+}
+
+.home-layer {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform-origin: 50% 50%;
+  will-change: transform, filter, opacity;
+}
+
+.home-space-layer {
+  z-index: 0;
+  background-image: url("assets/bg-space.png");
+  animation: space-drift 26s ease-in-out infinite alternate;
+}
+
+.home-title-layer {
+  z-index: 1;
+  background-image: url("assets/future-title.png");
+  animation: title-float 9s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(40, 242, 255, 0.2));
+}
+
+.home-asimov-layer {
+  z-index: 2;
+  background-image: url("assets/asimov.png");
+  animation: asimov-breathe 8s ease-in-out infinite;
 }
 
 .home-overlay {
@@ -70,7 +96,7 @@ a {
 #spaceCanvas {
   z-index: 2;
   display: block;
-  opacity: 0.78;
+  opacity: 0.42;
 }
 
 .console-page {
@@ -140,6 +166,7 @@ a {
 .home-bottom-bar {
   top: auto;
   bottom: 18px;
+  min-height: 64px;
 }
 
 .law-ticker {
@@ -161,6 +188,18 @@ a {
   transform: translateX(-50%);
 }
 
+.law-ticker::before {
+  background:
+    linear-gradient(90deg, rgba(4, 10, 28, 0.96), transparent),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(126, 248, 255, 0.16) 0,
+      rgba(126, 248, 255, 0.16) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+}
+
 .law-ticker::before,
 .law-ticker::after {
   position: absolute;
@@ -174,7 +213,6 @@ a {
 
 .law-ticker::before {
   left: 0;
-  background: linear-gradient(90deg, rgba(4, 10, 28, 0.96), transparent);
 }
 
 .law-ticker::after {
@@ -183,6 +221,7 @@ a {
 }
 
 .law-ticker-track {
+  position: relative;
   display: flex;
   width: max-content;
   min-height: 42px;
@@ -190,11 +229,29 @@ a {
   animation: law-scroll 58s linear infinite;
 }
 
+.law-ticker-track::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(126, 248, 255, 0.14),
+    transparent 34%,
+    rgba(157, 77, 255, 0.12) 68%,
+    transparent
+  );
+  content: "";
+  mix-blend-mode: screen;
+}
+
 .law-ticker:hover .law-ticker-track {
   animation-play-state: paused;
 }
 
 .law-ticker span {
+  position: relative;
+  z-index: 1;
   flex: 0 0 auto;
   padding-right: 54px;
   color: #7ef8ff;
@@ -217,6 +274,85 @@ a {
   }
 }
 
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 0.58;
+    transform: scale(0.84);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes core-pulse {
+  0%,
+  100% {
+    border-color: rgba(255, 255, 255, 0.24);
+  }
+
+  50% {
+    border-color: rgba(126, 248, 255, 0.58);
+  }
+}
+
+@keyframes core-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes core-flow {
+  0%,
+  100% {
+    opacity: 0.34;
+    transform: rotate(-10deg) scale(1);
+  }
+
+  50% {
+    opacity: 0.58;
+    transform: rotate(18deg) scale(1.06);
+  }
+}
+
+@keyframes space-drift {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: scale(1.018) translate3d(-0.55%, 0.35%, 0);
+  }
+}
+
+@keyframes title-float {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 8px rgba(40, 242, 255, 0.18)) drop-shadow(0 0 14px rgba(157, 77, 255, 0.1));
+    opacity: 0.94;
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 13px rgba(40, 242, 255, 0.34)) drop-shadow(0 0 22px rgba(157, 77, 255, 0.18));
+    opacity: 1;
+    transform: translate3d(0, -0.45%, 0);
+  }
+}
+
+@keyframes asimov-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.015);
+  }
+}
+
 .brand {
   font-size: clamp(1rem, 3vw, 1.2rem);
   font-weight: 800;
@@ -229,6 +365,39 @@ a {
   white-space: nowrap;
 }
 
+.system-status {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2vw, 22px);
+  min-width: 0;
+  color: #bdefff;
+  font-family: "Share Tech Mono", Consolas, monospace;
+  font-size: clamp(0.72rem, 1.1vw, 0.9rem);
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 8px rgba(40, 242, 255, 0.45);
+}
+
+.status-item {
+  white-space: nowrap;
+}
+
+.status-online {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #52ff91;
+  box-shadow: 0 0 8px rgba(82, 255, 145, 0.8), 0 0 16px rgba(82, 255, 145, 0.42);
+  animation: status-pulse 1.6s ease-in-out infinite;
+}
+
 .home-shell {
   position: relative;
   z-index: 5;
@@ -238,6 +407,7 @@ a {
 
 .bubble-button {
   display: grid;
+  position: relative;
   width: clamp(142px, 23vw, 190px);
   aspect-ratio: 1;
   place-items: center;
@@ -246,16 +416,21 @@ a {
   color: #fff;
   font-weight: 900;
   letter-spacing: 0.08em;
+  overflow: hidden;
+  isolation: isolate;
   text-align: center;
-  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, filter 220ms ease;
+  animation: core-pulse 4.8s ease-in-out infinite;
 }
 
 .home-button {
   position: fixed;
   top: 50%;
   z-index: 6;
+  --parallax-x: 0px;
+  --parallax-y: 0px;
   width: clamp(138px, 13vw, 180px);
-  transform: translate(-50%, -50%);
+  transform: translate(calc(-50% + var(--parallax-x)), calc(-50% + var(--parallax-y)));
 }
 
 .home-button-left {
@@ -267,23 +442,108 @@ a {
 }
 
 .bubble-cyan {
-  background: radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.32), transparent 18%),
-    linear-gradient(135deg, rgba(40, 242, 255, 0.38), rgba(50, 119, 255, 0.64));
-  box-shadow: 0 0 24px rgba(40, 242, 255, 0.64), inset 0 0 36px rgba(40, 242, 255, 0.22);
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.32), transparent 18%),
+    radial-gradient(circle at 52% 48%, rgba(126, 248, 255, 0.42), transparent 36%),
+    linear-gradient(135deg, rgba(40, 242, 255, 0.34), rgba(50, 119, 255, 0.58));
+  box-shadow: 0 0 22px rgba(40, 242, 255, 0.52), inset 0 0 34px rgba(40, 242, 255, 0.2);
 }
 
 .bubble-purple {
-  background: radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.32), transparent 18%),
-    linear-gradient(135deg, rgba(157, 77, 255, 0.42), rgba(255, 63, 210, 0.64));
-  box-shadow: 0 0 24px rgba(255, 63, 210, 0.58), inset 0 0 36px rgba(157, 77, 255, 0.24);
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.32), transparent 18%),
+    radial-gradient(circle at 52% 48%, rgba(255, 63, 210, 0.34), transparent 36%),
+    linear-gradient(135deg, rgba(157, 77, 255, 0.38), rgba(255, 63, 210, 0.56));
+  box-shadow: 0 0 22px rgba(255, 63, 210, 0.5), inset 0 0 34px rgba(157, 77, 255, 0.22);
+}
+
+.bubble-button::before,
+.bubble-button::after {
+  position: absolute;
+  inset: 9%;
+  border-radius: 50%;
+  pointer-events: none;
+  content: "";
+}
+
+.bubble-button::before {
+  z-index: 0;
+  background:
+    conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      rgba(255, 255, 255, 0.2) 42deg,
+      rgba(40, 242, 255, 0.34) 86deg,
+      transparent 138deg,
+      rgba(255, 63, 210, 0.22) 220deg,
+      transparent 360deg
+    );
+  filter: blur(2px);
+  opacity: 0.58;
+  animation: core-rotate 11s linear infinite;
+}
+
+.bubble-button::after {
+  z-index: 1;
+  background:
+    radial-gradient(circle at 45% 42%, rgba(255, 255, 255, 0.22), transparent 13%),
+    radial-gradient(circle at 50% 50%, transparent 38%, rgba(255, 255, 255, 0.14) 39%, transparent 58%),
+    linear-gradient(115deg, transparent 24%, rgba(255, 255, 255, 0.2) 42%, transparent 62%);
+  opacity: 0.46;
+  animation: core-flow 7.5s ease-in-out infinite;
+}
+
+.bubble-label {
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.78), 0 0 16px currentColor;
 }
 
 .bubble-button:hover,
 .bubble-button:focus-visible {
   border-color: rgba(255, 255, 255, 0.72);
-  box-shadow: 0 0 34px currentColor, 0 0 60px rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 34px currentColor, 0 0 56px rgba(255, 255, 255, 0.16), inset 0 0 42px rgba(255, 255, 255, 0.14);
+  filter: brightness(1.12) saturate(1.08);
   outline: none;
-  transform: translate(-50%, calc(-50% - 8px)) scale(1.045);
+  transform: translate(calc(-50% + var(--parallax-x)), calc(-50% - 8px + var(--parallax-y))) scale(1.045);
+}
+
+.future-tagline {
+  position: fixed;
+  z-index: 6;
+  left: 50%;
+  bottom: clamp(106px, 16vh, 154px);
+  width: min(620px, calc(100% - 44px));
+  margin: 0;
+  color: rgba(226, 247, 255, 0.82);
+  font-family: "Share Tech Mono", Consolas, monospace;
+  font-size: clamp(0.78rem, 1.5vw, 1.05rem);
+  letter-spacing: 0.08em;
+  line-height: 1.45;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(40, 242, 255, 0.45), 0 0 18px rgba(157, 77, 255, 0.24);
+  transform: translateX(-50%);
+}
+
+.thinking-status {
+  position: fixed;
+  z-index: 7;
+  right: 28px;
+  bottom: 98px;
+  max-width: min(360px, calc(100% - 56px));
+  color: rgba(163, 231, 255, 0.68);
+  font-family: "Share Tech Mono", Consolas, monospace;
+  font-size: clamp(0.7rem, 1.1vw, 0.86rem);
+  letter-spacing: 0.05em;
+  line-height: 1.45;
+  text-align: right;
+  text-shadow: 0 0 8px rgba(40, 242, 255, 0.32);
+  transition: opacity 420ms ease, transform 420ms ease;
+}
+
+.thinking-status.is-changing {
+  opacity: 0.15;
+  transform: translateY(4px);
 }
 
 .console-shell {
@@ -440,6 +700,8 @@ textarea:focus {
     top: auto;
     bottom: 12px;
     width: calc(100% - 24px);
+    min-height: 74px;
+    align-items: flex-start;
   }
 
   .law-ticker {
@@ -462,6 +724,14 @@ textarea:focus {
     font-size: 0.8rem;
   }
 
+  .system-status {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 10px;
+    font-size: 0.64rem;
+    flex-wrap: wrap;
+  }
+
   .home-shell {
     padding-top: 126px;
   }
@@ -477,6 +747,18 @@ textarea:focus {
 
   .home-button-right {
     left: clamp(69vw, 75vw, calc(100vw - 70px));
+  }
+
+  .future-tagline {
+    bottom: 106px;
+    font-size: clamp(0.66rem, 3vw, 0.82rem);
+  }
+
+  .thinking-status {
+    right: 16px;
+    bottom: 92px;
+    max-width: calc(100% - 32px);
+    font-size: 0.66rem;
   }
 
   .console-shell {
