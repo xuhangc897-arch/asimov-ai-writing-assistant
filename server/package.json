@@ -2,10 +2,13 @@
   "name": "asimov-ai-writing-assistant-server",
   "version": "1.0.0",
   "description": "Tencent Cloud Serverless proxy for DeepSeek Chat Completions.",
-  "main": "index.js",
+  "main": "app.js",
   "type": "commonjs",
   "scripts": {
-    "check": "node --check index.js"
+    "check": "node --check app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.3"
   },
   "engines": {
     "node": ">=18"
