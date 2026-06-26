@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Translate Mode | Asimov AI Writing Assistant</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="console-page">
+  <header class="neon-navbar">
+    <a class="brand" href="index.html">Asimov AI Writing Assistant</a>
+    <span class="designer">Designed by CXH</span>
+  </header>
+
+  <main class="console-shell">
+    <a class="back-link" href="index.html">Back Home</a>
+
+    <section class="mode-panel">
+      <p class="mode-kicker">Deep language interface</p>
+      <h1>TRANSLATE MODE</h1>
+      <p class="mode-description">
+        Input Chinese or English. The AI will answer only in English.
+      </p>
+
+      <div class="ai-console">
+        <label class="sr-only" for="userInput">Your text</label>
+        <textarea id="userInput" placeholder="Enter Chinese or English text here..."></textarea>
+        <button class="send-button" type="button" onclick="askAI('translate')">SEND</button>
+        <div id="answerBox" class="answer-box" aria-live="polite">
+          Awaiting transmission.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

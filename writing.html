@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing Mode | Asimov AI Writing Assistant</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="console-page">
+  <header class="neon-navbar">
+    <a class="brand" href="index.html">Asimov AI Writing Assistant</a>
+    <span class="designer">Designed by CXH</span>
+  </header>
+
+  <main class="console-shell">
+    <a class="back-link" href="index.html">Back Home</a>
+
+    <section class="mode-panel">
+      <p class="mode-kicker">Speculative writing chamber</p>
+      <h1>WRITING MODE</h1>
+      <p class="mode-description">
+        Input English only. The AI will also answer in English.
+      </p>
+
+      <div class="ai-console">
+        <label class="sr-only" for="userInput">Your text</label>
+        <textarea id="userInput" placeholder="Enter English writing, ideas, or paragraphs here..."></textarea>
+        <button class="send-button" type="button" onclick="askAI('writing')">SEND</button>
+        <div id="answerBox" class="answer-box" aria-live="polite">
+          Awaiting transmission.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
