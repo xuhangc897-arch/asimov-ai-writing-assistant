@@ -7,10 +7,10 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="home-page">
-  <div class="home-bg" aria-hidden="true">
-    <div class="home-layer home-space-layer"></div>
-    <div class="home-layer home-title-layer"></div>
-    <div class="home-layer home-asimov-layer"></div>
+  <div class="home-layers" aria-hidden="true">
+    <img class="layer layer-bg" src="assets/bg-space.png" alt="" draggable="false">
+    <img class="layer layer-future" src="assets/future-title.png" alt="" draggable="false">
+    <img class="layer layer-asimov" src="assets/asimov.png" alt="" draggable="false">
   </div>
   <div class="home-overlay" aria-hidden="true"></div>
   <canvas id="spaceCanvas" aria-hidden="true"></canvas>
@@ -30,7 +30,9 @@
     <a class="brand" href="index.html">Asimov AI Writing Assistant</a>
     <div class="system-status" aria-label="System status">
       <span class="status-item status-online"><span class="status-dot" aria-hidden="true"></span>AI STATUS: ONLINE</span>
+      <span class="status-divider" aria-hidden="true">|</span>
       <span class="status-item">SYSTEM READY</span>
+      <span class="status-divider" aria-hidden="true">|</span>
       <span class="status-item">v1.0</span>
     </div>
     <span class="designer">Designed by CXH</span>

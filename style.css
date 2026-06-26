@@ -40,8 +40,8 @@ a {
   background: #050614;
 }
 
-.home-bg,
-.home-layer,
+.home-layers,
+.layer,
 .home-overlay,
 #spaceCanvas {
   position: fixed;
@@ -52,36 +52,37 @@ a {
   pointer-events: none;
 }
 
-.home-bg {
+.home-layers {
   z-index: 0;
   overflow: hidden;
   background: #050614;
 }
 
-.home-layer {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   transform-origin: 50% 50%;
+  user-select: none;
   will-change: transform, filter, opacity;
 }
 
-.home-space-layer {
+.layer-bg {
   z-index: 0;
-  background-image: url("assets/bg-space.png");
   animation: space-drift 26s ease-in-out infinite alternate;
 }
 
-.home-title-layer {
+.layer-future {
   z-index: 1;
-  background-image: url("assets/future-title.png");
   animation: title-float 9s ease-in-out infinite;
   filter: drop-shadow(0 0 10px rgba(40, 242, 255, 0.2));
 }
 
-.home-asimov-layer {
+.layer-asimov {
   z-index: 2;
-  background-image: url("assets/asimov.png");
   animation: asimov-breathe 8s ease-in-out infinite;
 }
 
@@ -167,6 +168,8 @@ a {
   top: auto;
   bottom: 18px;
   min-height: 64px;
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto minmax(150px, 1fr);
 }
 
 .law-ticker {
@@ -362,16 +365,17 @@ a {
 .designer {
   color: var(--muted);
   font-size: 0.9rem;
+  justify-self: end;
   white-space: nowrap;
 }
 
 .system-status {
   display: flex;
-  flex: 1 1 auto;
   align-items: center;
   justify-content: center;
-  gap: clamp(10px, 2vw, 22px);
+  gap: clamp(12px, 2.2vw, 28px);
   min-width: 0;
+  padding: 0 clamp(8px, 1.6vw, 20px);
   color: #bdefff;
   font-family: "Share Tech Mono", Consolas, monospace;
   font-size: clamp(0.72rem, 1.1vw, 0.9rem);
@@ -381,6 +385,11 @@ a {
 
 .status-item {
   white-space: nowrap;
+}
+
+.status-divider {
+  color: rgba(126, 248, 255, 0.52);
+  text-shadow: 0 0 8px rgba(40, 242, 255, 0.35);
 }
 
 .status-online {
@@ -512,7 +521,7 @@ a {
   position: fixed;
   z-index: 6;
   left: 50%;
-  bottom: clamp(106px, 16vh, 154px);
+  top: clamp(62%, 66vh, 70%);
   width: min(620px, calc(100% - 44px));
   margin: 0;
   color: rgba(226, 247, 255, 0.82);
@@ -520,9 +529,10 @@ a {
   font-size: clamp(0.78rem, 1.5vw, 1.05rem);
   letter-spacing: 0.08em;
   line-height: 1.45;
+  opacity: 0.75;
   text-align: center;
-  text-shadow: 0 0 10px rgba(40, 242, 255, 0.45), 0 0 18px rgba(157, 77, 255, 0.24);
-  transform: translateX(-50%);
+  text-shadow: 0 0 8px rgba(40, 242, 255, 0.34), 0 0 14px rgba(157, 77, 255, 0.18);
+  transform: translate(-50%, -50%);
 }
 
 .thinking-status {
@@ -702,6 +712,7 @@ textarea:focus {
     width: calc(100% - 24px);
     min-height: 74px;
     align-items: flex-start;
+    grid-template-columns: 1fr;
   }
 
   .law-ticker {
@@ -722,12 +733,14 @@ textarea:focus {
 
   .designer {
     font-size: 0.8rem;
+    justify-self: start;
   }
 
   .system-status {
     width: 100%;
     justify-content: flex-start;
-    gap: 10px;
+    gap: 8px;
+    padding: 0;
     font-size: 0.64rem;
     flex-wrap: wrap;
   }
@@ -750,7 +763,7 @@ textarea:focus {
   }
 
   .future-tagline {
-    bottom: 106px;
+    top: 67vh;
     font-size: clamp(0.66rem, 3vw, 0.82rem);
   }
 
