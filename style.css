@@ -77,13 +77,19 @@ a {
 
 .layer-future {
   z-index: 1;
-  animation: title-float 9s ease-in-out infinite;
-  filter: drop-shadow(0 0 10px rgba(40, 242, 255, 0.2));
+  animation: title-float 7s ease-in-out infinite;
+  filter:
+    drop-shadow(0 0 12px rgba(126, 248, 255, 0.28))
+    drop-shadow(0 0 22px rgba(157, 77, 255, 0.16));
 }
 
 .layer-asimov {
   z-index: 2;
-  animation: asimov-breathe 8s ease-in-out infinite;
+  animation: asimov-breathe 6s ease-in-out infinite;
+  filter:
+    brightness(1)
+    drop-shadow(0 0 10px rgba(40, 242, 255, 0.12))
+    drop-shadow(0 0 18px rgba(157, 77, 255, 0.1));
 }
 
 .home-overlay {
@@ -95,9 +101,9 @@ a {
 }
 
 #spaceCanvas {
-  z-index: 2;
+  z-index: 3;
   display: block;
-  opacity: 0.42;
+  opacity: 0.46;
 }
 
 .console-page {
@@ -333,26 +339,38 @@ a {
 @keyframes title-float {
   0%,
   100% {
-    filter: drop-shadow(0 0 8px rgba(40, 242, 255, 0.18)) drop-shadow(0 0 14px rgba(157, 77, 255, 0.1));
-    opacity: 0.94;
-    transform: translate3d(0, 0, 0);
+    filter:
+      drop-shadow(0 0 10px rgba(126, 248, 255, 0.24))
+      drop-shadow(0 0 18px rgba(157, 77, 255, 0.14));
+    opacity: 0.88;
+    transform: translate3d(0, -6px, 0) scale(1);
   }
 
   50% {
-    filter: drop-shadow(0 0 13px rgba(40, 242, 255, 0.34)) drop-shadow(0 0 22px rgba(157, 77, 255, 0.18));
+    filter:
+      drop-shadow(0 0 18px rgba(126, 248, 255, 0.42))
+      drop-shadow(0 0 30px rgba(157, 77, 255, 0.22));
     opacity: 1;
-    transform: translate3d(0, -0.45%, 0);
+    transform: translate3d(0, 6px, 0) scale(1.02);
   }
 }
 
 @keyframes asimov-breathe {
   0%,
   100% {
+    filter:
+      brightness(1)
+      drop-shadow(0 0 10px rgba(40, 242, 255, 0.12))
+      drop-shadow(0 0 18px rgba(157, 77, 255, 0.1));
     transform: scale(1);
   }
 
   50% {
-    transform: scale(1.015);
+    filter:
+      brightness(1.08)
+      drop-shadow(0 0 14px rgba(40, 242, 255, 0.18))
+      drop-shadow(0 0 24px rgba(157, 77, 255, 0.14));
+    transform: scale(1.025);
   }
 }
 
@@ -781,5 +799,23 @@ textarea:focus {
 
   .send-button {
     justify-self: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer-bg,
+  .layer-future,
+  .layer-asimov,
+  .bubble-button,
+  .bubble-button::before,
+  .bubble-button::after,
+  .law-ticker-track,
+  .status-dot {
+    animation-duration: 1ms;
+    animation-iteration-count: 1;
+  }
+
+  #spaceCanvas {
+    opacity: 0.22;
   }
 }

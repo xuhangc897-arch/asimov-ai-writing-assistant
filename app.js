@@ -83,6 +83,7 @@ function initHomePageEffects() {
 
 function initHomeCanvas() {
   const canvas = document.getElementById("spaceCanvas");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (!canvas) {
     return;
@@ -99,8 +100,8 @@ function initHomeCanvas() {
   let pixelRatio = 1;
   let particles = [];
   let streams = [];
-  const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
-  const colors = ["40, 242, 255", "50, 119, 255", "157, 77, 255", "255, 63, 210"];
+  const mouse = { x: 0, y: 0, tx: 0, ty: 0, active: false };
+  const colors = ["40, 242, 255", "50, 119, 255", "157, 77, 255", "238, 247, 255"];
 
   function resizeCanvas() {
     pixelRatio = Math.min(window.devicePixelRatio || 1, 1.6);
@@ -115,8 +116,8 @@ function initHomeCanvas() {
   }
 
   function createField() {
-    const particleCount = width < 720 ? 70 : 120;
-    const streamCount = width < 720 ? 9 : 16;
+    const particleCount = reduceMotion ? (width < 720 ? 24 : 48) : (width < 720 ? 48 : 118);
+    const streamCount = reduceMotion ? 0 : (width < 720 ? 7 : 15);
 
     particles = Array.from({ length: particleCount }, () => {
       const x = Math.random() * width;
@@ -131,7 +132,8 @@ function initHomeCanvas() {
         color: colors[Math.floor(Math.random() * colors.length)],
         phase: Math.random() * Math.PI * 2,
         speed: 0.00018 + Math.random() * 0.00034,
-        drift: 7 + Math.random() * 18
+        drift: reduceMotion ? 2 + Math.random() * 4 : 6 + Math.random() * 16,
+        mousePull: 0.012 + Math.random() * 0.018
       };
     });
 
@@ -139,8 +141,8 @@ function initHomeCanvas() {
       x: Math.random() * width,
       y: Math.random() * height,
       length: 34 + Math.random() * 74,
-      speed: 0.16 + Math.random() * 0.32,
-      alpha: 0.04 + Math.random() * 0.08,
+      speed: 0.12 + Math.random() * 0.26,
+      alpha: 0.025 + Math.random() * 0.06,
       color: colors[Math.floor(Math.random() * colors.length)]
     }));
   }
@@ -166,9 +168,13 @@ function initHomeCanvas() {
 
     particles.forEach((particle) => {
       const t = timestamp * particle.speed + particle.phase;
-      const x = particle.baseX + Math.cos(t) * particle.drift + mouse.x * 5;
-      const y = particle.baseY + Math.sin(t * 0.8) * particle.drift + mouse.y * 4;
-      const alpha = 0.1 * centerFade(x, y);
+      const floatingX = particle.baseX + Math.cos(t) * particle.drift;
+      const floatingY = particle.baseY + Math.sin(t * 0.8) * particle.drift;
+      const pullX = mouse.active ? (mouse.x - floatingX) * particle.mousePull : 0;
+      const pullY = mouse.active ? (mouse.y - floatingY) * particle.mousePull : 0;
+      const x = floatingX + pullX;
+      const y = floatingY + pullY;
+      const alpha = (reduceMotion ? 0.055 : 0.11) * centerFade(x, y);
 
       ctx.beginPath();
       ctx.fillStyle = `rgba(${particle.color}, ${alpha})`;
@@ -202,23 +208,34 @@ function initHomeCanvas() {
       ctx.stroke();
     });
 
-    requestAnimationFrame(draw);
+    if (!reduceMotion) {
+      requestAnimationFrame(draw);
+    }
   }
 
   window.addEventListener("resize", resizeCanvas);
   window.addEventListener("mousemove", (event) => {
-    mouse.tx = (event.clientX / width - 0.5) || 0;
-    mouse.ty = (event.clientY / height - 0.5) || 0;
+    mouse.tx = event.clientX || 0;
+    mouse.ty = event.clientY || 0;
+    mouse.active = true;
   }, { passive: true });
+  window.addEventListener("mouseleave", () => {
+    mouse.active = false;
+  });
 
   resizeCanvas();
+  if (reduceMotion) {
+    draw(0);
+    return;
+  }
+
   requestAnimationFrame(draw);
 }
 
 function initHomeButtonParallax() {
   const buttons = document.querySelectorAll(".home-button");
 
-  if (!buttons.length) {
+  if (!buttons.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     return;
   }
 
